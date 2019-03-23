@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Log In</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="w3.css">
+    <style>
+        .login-card {
+            width: 500px;
+            margin: 10% auto auto;
+        }
+
+        @media screen and (max-width: 500px) {
+            .login-card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="w3-container login-card w3-animate-top">
+        <div class="w3-card-4">
+            <div class="w3-container">
+                <h2><b>Login</b></h2>
+            </div>
+
+            <form class="w3-container">
+                <p>
+                    <label for="id_input"><b>ID</b></label>
+                    <input class="w3-input w3-border" id="id_input">
+                </p>
+                <p>
+                    <label for="password_input"><b>Password</b></label>
+                    <input type="password" class="w3-input w3-border" id="password_input">
+                </p>
+                <p>
+                    <button class="w3-teal w3-btn" type="button" id="submit_btn">submit</button>
+                </p>
+            </form>
+
+        </div>
+    </div>
+
+    <script src="login.dart.js" type="application/javascript"></script>
+
+</body>
+
+</html>
