@@ -10,7 +10,7 @@ export 'connection.dart' show initDB;
 part 'annotation.dart';
 
 
-Future<List<DBBean>> findWithCount<T extends DBBean>(int count,
+Future<List<T>> findWithCount<T extends DBBean>(int count,
     {Map where}) async {
   final _classMirror = reflectClass(T);
   assert(_classMirror.isAbstract == false);
@@ -26,16 +26,16 @@ Future<List<DBBean>> findWithCount<T extends DBBean>(int count,
   final newInstance = (Row row) {
     final symbolToData = symbolToDbColumn
         .map((symbol, name) => MapEntry(symbol, row.byName(name)));
-    final DBBean bean = _classMirror.newInstance(Symbol(''), [], symbolToData).reflectee;
+    final T bean = _classMirror.newInstance(Symbol(''), [], symbolToData).reflectee;
     return bean;
   };
   return res.map(newInstance).toList();
 }
 
-Future<DBBean> findFirst<T extends DBBean>({Map where}) async =>
+Future<T> findFirst<T extends DBBean>({Map where}) async =>
     (await findWithCount<T>(1, where: where)).first;
 
-Future<List<DBBean>> findAll<T extends DBBean>({Map where}) async =>
+Future<List<T>> findAll<T extends DBBean>({Map where}) async =>
     findWithCount<T>(-1, where: where);
 
 /// abstract super class for all classes stored in database

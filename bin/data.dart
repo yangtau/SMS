@@ -9,10 +9,14 @@ class Student extends DBBean {
   final String name;
   @Column('email')
   final String email;
-  @Column('phonenumber')
-  final String phonenumber;
+    @Column('phonenumber')
+    final String phonenumber;
 
   Student({this.id, this.name, this.email, this.phonenumber});
+
+  @override
+  String toString() =>
+    '{id: $id, name: $name, email: $email, phonenumber: $phonenumber}';
 }
 
 @Table('users')
@@ -22,12 +26,12 @@ class User extends DBBean {
   final String id;
   @Column('password')
   final String password;
-  @Column('createTime')
-  final DateTime createTime;
+  @Column('updateTime')
+  final DateTime updateTime;
 
-  User({this.id, this.password, this.createTime});
+  User({this.id, this.password, this.updateTime});
 
   @override
   String toString() =>
-      '{id: $id, password: $password, createTime: $createTime}';
+      '{id: $id, password: $password, createTime: $updateTime}';
 }

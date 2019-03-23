@@ -12,30 +12,26 @@ void newInstance() {
 
 void databaseTest() async {
   await db.initDB(db.ConnectionSettings(
-    user: "root",
-    password: "123456",
-    host: "localhost",
-    port: 3306,
-    db: "students_db",
+      user: "root",
+      password: "123456",
+      host: "localhost",
+      port: 3306,
+      db: "students_db",
   ));
   await db.findAll<User>().then(print);
   await db.findFirst<User>(where: {'password': 'hello'}).then(print);
   await db.findWithCount<User>(2).then(print);
 }
 
-void func() => print('have a nice day!');
-
-void invoke() {
-  InstanceMirror mirror = reflect(func);
-  Function fn = mirror.reflectee;
-  print(mirror);
-  print(fn.runtimeType);
-  print(func.runtimeType);
-  fn();
-}
+String getData(value) =>
+    value is int || value is double ? '$value' : '"${value ?? ''}"';
 
 void main() {
-  test('invoke by instance itself', invoke);
+  test('getData', () {
+    print(getData(3));
+    print(getData(null));
+  });
+  // test('invoke by instance itself', invoke);
   // test('create instance', newInstance);
   // test('database hleper', databaseTest);
 }

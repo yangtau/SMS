@@ -5,7 +5,7 @@ import 'connection.dart';
 /// todo maybe some special needed for some data
 /// except int double, other type add ""
 String _getData(value) =>
-    value is int || value is double ? '$value' : '"$value"';
+    value is int || value is double ? '$value' : '"${value??''}"';
 
 /// insert find update delete throws MySqlException
 Future<bool> insert(String tableName, {Map values}) async {
