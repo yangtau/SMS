@@ -1,14 +1,6 @@
 import 'package:test/test.dart';
 import 'package:shelf_learn/database.dart' as db;
 import '../bin/data.dart';
-import 'dart:mirrors';
-
-void newInstance() {
-  final _classMirror = reflectClass(User);
-  var user = _classMirror.newInstance(Symbol(''), [],
-      {Symbol('id'): 'admin', Symbol('password'): 'pass'}).reflectee;
-  print(user);
-}
 
 void databaseTest() async {
   await db.initDB(db.ConnectionSettings(
@@ -16,28 +8,34 @@ void databaseTest() async {
     password: "123456",
     host: "localhost",
     port: 3306,
-    db: "students_db",
+    db: "studentManager",
   ));
+  final list = [
+    User(id: 'tau', password: '123456789', updateTime: DateTime.now()),
+    User(id: 'yang', password: 'hello', updateTime: DateTime.now()),
+    User(id: 'k', password: 'hello', updateTime: DateTime.now()),
+    User(id: 'yangtau', password: 'helloworld', updateTime: DateTime.now())
+  ];
+  print('--insert all--');
+  await db.insertAll(list);
+  print('--find all--');
   await db.findAll<User>().then(print);
-  await db.findFirst<User>(where: {'password': 'hello'}).then(print);
-  await db.findWithCount<User>(2).then(print);
+  // print('--find first where password = hello--');
+  // await db.findFirst<User>(where: {'password': 'hello'}).then(print);
+  // print('--find all where password = hello and id =k--');
+  // await db.findAll<User>(where: {'id': 'k', 'password': 'hello'}).then(print);
+  // print('--find with limit 2--');
+  // await db.findWithCount<User>(2).then(print);
+  // print('--delete where id = yang--');
+  // await User(id: 'yang').deleteByPrimaryKey();
+  // print('--find all--');
+  // await db.findAll<User>().then(print);
+  print('--delete all--');
+  for (var u in list) await u.deleteByPrimaryKey();
+  // print('--find all--');
+  // await db.findAll<User>().then(print);
 }
 
-String getData(value) =>
-    value is int || value is double ? '$value' : '"${value ?? ''}"';
-enum Color { red, yellow }
 void main() {
-  test('getData', () {
-    print(getData(3));
-    print(getData(null));
-  });
-  test('enum', () {
-    print(Color.red);
-  });
-  test('multiply', () {
-    print('${('?,' * 10).replaceRange(19, 20, '')}');
-  });
-  // test('invoke by instance itself', invoke);
-  // test('create instance', newInstance);
-  // test('database hleper', databaseTest);
+  test('database query', databaseTest);
 }

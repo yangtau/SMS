@@ -9,9 +9,26 @@ export 'connection.dart' show initDB;
 
 part 'annotation.dart';
 
+Future<bool> insertAll<T extends DBBean>(List<T> list) {
+  final _classMirror = reflectClass(T);
+  assert(_classMirror.isAbstract == false);
+  final columnSymbols = <Symbol>[];
+  final keys = <String>[];
+  _classMirror.declarations.forEach((s, v) {
+    final columnName = _getColumnName(v);
+    if (columnName != null) {
+      columnSymbols.add(s);
+      keys.add(columnName);
+    }
+  });
+  List<List> values = list
+      .map((t) =>
+          columnSymbols.map((s) => reflect(t).getField(s).reflectee).toList())
+      .toList();
+  return insetMutil(_getTableName(_classMirror), keys, values);
+}
 
-Future<List<T>> findWithCount<T extends DBBean>(int count,
-    {Map where}) async {
+Future<List<T>> findWithCount<T extends DBBean>(int count, {Map where}) async {
   final _classMirror = reflectClass(T);
   assert(_classMirror.isAbstract == false);
   final res =
@@ -26,7 +43,8 @@ Future<List<T>> findWithCount<T extends DBBean>(int count,
   final newInstance = (Row row) {
     final symbolToData = symbolToDbColumn
         .map((symbol, name) => MapEntry(symbol, row.byName(name)));
-    final T bean = _classMirror.newInstance(Symbol(''), [], symbolToData).reflectee;
+    final T bean =
+        _classMirror.newInstance(Symbol(''), [], symbolToData).reflectee;
     return bean;
   };
   return res.map(newInstance).toList();
@@ -37,8 +55,6 @@ Future<T> findFirst<T extends DBBean>({Map where}) async =>
 
 Future<List<T>> findAll<T extends DBBean>({Map where}) async =>
     findWithCount<T>(-1, where: where);
-
-
 
 /// abstract super class for all classes stored in database
 /// the bean must have a constructor with only named arguments of all db data
@@ -68,7 +84,7 @@ abstract class DBBean {
         _values[columnName] = _instanceMirror.getField(s).reflectee;
       }
     });
-    return await insert(tableName, values: _values);
+    return await insert(tableName, _values);
   }
 
   Future<bool> updateByPrimaryKey() async {
