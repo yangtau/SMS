@@ -12,11 +12,11 @@ void newInstance() {
 
 void databaseTest() async {
   await db.initDB(db.ConnectionSettings(
-      user: "root",
-      password: "123456",
-      host: "localhost",
-      port: 3306,
-      db: "students_db",
+    user: "root",
+    password: "123456",
+    host: "localhost",
+    port: 3306,
+    db: "students_db",
   ));
   await db.findAll<User>().then(print);
   await db.findFirst<User>(where: {'password': 'hello'}).then(print);
@@ -25,11 +25,17 @@ void databaseTest() async {
 
 String getData(value) =>
     value is int || value is double ? '$value' : '"${value ?? ''}"';
-
+enum Color { red, yellow }
 void main() {
   test('getData', () {
     print(getData(3));
     print(getData(null));
+  });
+  test('enum', () {
+    print(Color.red);
+  });
+  test('multiply', () {
+    print('${('?,' * 10).replaceRange(19, 20, '')}');
   });
   // test('invoke by instance itself', invoke);
   // test('create instance', newInstance);

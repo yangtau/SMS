@@ -38,6 +38,8 @@ Future<T> findFirst<T extends DBBean>({Map where}) async =>
 Future<List<T>> findAll<T extends DBBean>({Map where}) async =>
     findWithCount<T>(-1, where: where);
 
+
+
 /// abstract super class for all classes stored in database
 /// the bean must have a constructor with only named arguments of all db data
 abstract class DBBean {
