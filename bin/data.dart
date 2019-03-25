@@ -2,8 +2,7 @@ import 'package:shelf_learn/database.dart';
 
 @Table('students')
 class Student extends DBBean {
-  @PrimaryKey
-  @Column('id')
+  @PrimaryKey('id')
   final String id;
   @Column('name')
   final String name;
@@ -21,8 +20,7 @@ class Student extends DBBean {
 
 @Table('users')
 class User extends DBBean {
-  @PrimaryKey
-  @Column('id')
+  @PrimaryKey('id')
   final String id;
   @Column('password')
   final String password;

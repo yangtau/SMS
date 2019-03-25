@@ -1,7 +1,12 @@
 part of database;
 
 /// annotation for primary key and it must be the first annotation
-const PrimaryKey = 'PrimaryKey';
+class PrimaryKey {
+  final String name;
+
+  /// [name] is the column name
+  const PrimaryKey(this.name);
+}
 
 /// annotation for table name
 class Table {
@@ -17,6 +22,7 @@ class Column {
   const Column(this.name);
 }
 
+final _PRIMARY_KEY_TYPE = reflectClass(PrimaryKey);
 final _TABLE_TYPE = reflectClass(Table);
 final _COLUMN_TYPE = reflectClass(Column);
 const _NO_TABLE_EXCEPTION =
@@ -32,10 +38,11 @@ String _getTableName(ClassMirror classMirror) => classMirror.metadata
     .name;
 
 bool _isPrimaryKey(DeclarationMirror mirror) =>
-    mirror.metadata.any((i) => i.reflectee == PrimaryKey);
+    mirror.metadata.any((i) => i.type == _PRIMARY_KEY_TYPE);
 
 /// return null if there is no [Column] annotation
 String _getColumnName(DeclarationMirror mirror) => mirror.metadata
-    .firstWhere((i) => i.type == _COLUMN_TYPE, orElse: () => null)
+    .firstWhere((i) => i.type == _COLUMN_TYPE || i.type == _PRIMARY_KEY_TYPE,
+        orElse: () => null)
     ?.reflectee
     ?.name;

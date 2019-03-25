@@ -2,75 +2,68 @@ import 'package:sqljocky5/sqljocky.dart';
 
 import 'connection.dart';
 
-/// todo maybe some special needed for some data
-/// except int double, other type add ""
-/// TODO: remove this function  use `insert into users (id, password) values (?,?)`
-String _getData(value) =>
-    value is int || value is double ? '$value' : '"${value ?? ''}"';
+/// place holder
+/// [len]
+/// ?,?,?,?
+String _getPlaceHolder(int len) => '?, ' * (len - 1) + '?';
 
 /// insert find update delete throws MySqlException
 Future<bool> insert(String tableName, Map values) async {
   if (values?.isEmpty ?? false) throw '`values cannot be empty`';
   final conn = await connectDB();
-  final data = values.values.map((v) => _getData(v))?.join(',');
   final column = values.keys.join(',');
-  String sql = 'insert into $tableName ($column) values ($data)';
-  print(sql);
-  await conn.execute(sql);
+  String sql =
+      'insert into $tableName ($column) values (${_getPlaceHolder(values.length)})';
+  // print(sql);
+  await conn.prepared(sql, values.values.toList());
   return true;
 }
 
 Future<bool> insetMutil(
     String tableName, List<String> keys, List<List> values) async {
+  assert(keys.length == values.length);
   final conn = await connectDB();
-  final valuesPattern = '?, ' * (keys.length - 1) + '?';
   String sql =
-      'insert into $tableName (${keys.join(', ')}) values ($valuesPattern)';
-  print(sql);
+      'insert into $tableName (${keys.join(', ')}) values (${_getPlaceHolder(keys.length)})';
+  // print(sql);
   await conn.preparedWithAll(sql, values);
   return true;
 }
 
+/// TODO: [like]
 Future<Results> find(String tableName,
-    {Map where, Map like, int count = -1}) async {
-  // TODO: like
+    {Map where = const {}, Map like = const {}, int count = -1}) async {
   final conn = await connectDB();
-  final whereSql = where?.entries
-      ?.map((entry) => '${entry.key}=${_getData(entry.value)}')
-      ?.join(" and ");
+  final whereSql = where.keys.map((k) => '$k=?').join(" and ");
   String sql = 'select * from $tableName';
-  sql += (whereSql != null ? (' where ' + whereSql) : '');
+  sql += (whereSql.isNotEmpty ? (' where ' + whereSql) : '');
   if (count != -1) sql += ' limit $count';
-  print(sql);
-  final res = await conn.execute(sql);
+  // print(sql);
+  final res = await conn.prepared(sql, where.values.toList());
   return res.deStream();
 }
 
-Future<bool> delete(String tableName, {Map where}) async {
+Future<bool> delete(String tableName, {Map where = const {}}) async {
   final conn = await connectDB();
-  final whereSql = where?.entries
-      ?.map((entry) => '${entry.key}=${_getData(entry.value)}')
-      ?.join(" and ");
+  final whereSql = where.keys.map((k) => '${k}=?').join(" and ");
   String sql = 'delete from $tableName';
-  sql += whereSql != null ? ' where ' + whereSql : '';
-  print(sql);
-  await conn.execute(sql);
+  sql += whereSql.isNotEmpty ? ' where ' + whereSql : '';
+  // print(sql);
+  await conn.prepared(sql, where.values.toList());
   return true;
 }
 
-Future<bool> update(String tableName, Map change, {Map where}) async {
+Future<bool> update(String tableName, Map change,
+    {Map where = const {}}) async {
   if (change == null || change.isEmpty)
     throw 'The change cannot be null or empty';
   final conn = await connectDB();
-  final whereSql = where?.entries
-      ?.map((entry) => '${entry.key}=${_getData(entry.value)}')
-      ?.join(" and ");
-  final changeSql = change.entries
-      .map((entry) => '${entry.key}=${_getData(entry.value)}')
-      .join(', ');
+  final whereSql = where.entries.map((entry) => '${entry.key}=?').join(" and ");
+  final changeSql = change.entries.map((entry) => '${entry.key}=?').join(', ');
   String sql = 'update $tableName set ' + changeSql;
-  sql += whereSql != null ? ' where ' + whereSql : '';
-  print(sql);
-  await conn.execute(sql);
+  sql += whereSql.isNotEmpty ? ' where ' + whereSql : '';
+  // print(sql);
+  // print(change.values.followedBy(where.values).toList());
+  await conn.prepared(sql, change.values.followedBy(where.values).toList());
   return true;
 }

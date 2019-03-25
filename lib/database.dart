@@ -28,7 +28,8 @@ Future<bool> insertAll<T extends DBBean>(List<T> list) {
   return insetMutil(_getTableName(_classMirror), keys, values);
 }
 
-Future<List<T>> findWithCount<T extends DBBean>(int count, {Map where}) async {
+Future<List<T>> findWithCount<T extends DBBean>(int count,
+    {Map where = const {}}) async {
   final _classMirror = reflectClass(T);
   assert(_classMirror.isAbstract == false);
   final res =
@@ -50,10 +51,10 @@ Future<List<T>> findWithCount<T extends DBBean>(int count, {Map where}) async {
   return res.map(newInstance).toList();
 }
 
-Future<T> findFirst<T extends DBBean>({Map where}) async =>
+Future<T> findFirst<T extends DBBean>({Map where = const {}}) async =>
     (await findWithCount<T>(1, where: where)).first;
 
-Future<List<T>> findAll<T extends DBBean>({Map where}) async =>
+Future<List<T>> findAll<T extends DBBean>({Map where = const {}}) async =>
     findWithCount<T>(-1, where: where);
 
 /// abstract super class for all classes stored in database
