@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:shelf_learn/database.dart' as db;
+import 'package:SMS/database.dart' as db;
 import '../bin/data.dart';
 
 void databaseTest() async {
@@ -43,6 +43,44 @@ void databaseTest() async {
   await db.findAll<User>().then(print);
 }
 
-void main() {
-  test('database query', databaseTest);
+void insertMulti() async {
+  await db.initDB(db.ConnectionSettings(
+    user: "root",
+    password: "123456",
+    host: "localhost",
+    port: 3306,
+    db: "studentManager",
+  ));
+  try {
+    await db.insertAll<Student>([
+      Student(id: 'k', name: 'ddd', email: 'dfdsf', phonenumber: '32454'),
+      Student(id: 'y', name: 'ddd', email: 'dfdsf', phonenumber: '32454'),
+      Student(id: 't', name: 'fdsgf', email: 'fdsg', phonenumber: '45389657'),
+    ]);
+  } catch (e) {
+    print(e);
+    print(e.runtimeType);
+  }
+}
+
+void main() async {
+  // test('database query', databaseTest);
+  // test('insert multi', insertMulti);
+  await db.initDB(db.ConnectionSettings(
+    user: "root",
+    password: "123456",
+    host: "localhost",
+    port: 3306,
+    db: "studentManager",
+  ));
+  try {
+    await db.insertAll<Student>([
+      Student(id: 'k', name: 'ddd', email: 'dfdsf', phonenumber: '32454'),
+      Student(id: 'y', name: 'ddd', email: 'dfdsf', phonenumber: '32454'),
+      Student(id: 't', name: 'fdsgf', email: 'fdsg', phonenumber: '45389657'),
+    ]);
+  } catch (e) {
+    print(e);
+    print(e.runtimeType);
+  }
 }

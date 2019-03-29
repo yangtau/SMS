@@ -71,16 +71,24 @@ abstract class DBBean {
     _classMirror = _instanceMirror.type;
     _tableName = _getTableName(_classMirror);
   }
-
-  DBBean.fromDB();
+  // only for column
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    _classMirror.declarations.forEach((s, v) {
+      final columnName = _getColumnName(v);
+      if (columnName != null) {
+        final v = _instanceMirror.getField(s).reflectee;
+        map[columnName] = v is num || v is bool ? v : v.toString();
+      }
+    });
+    return map;
+  }
 
   // return error code 0 is ok
   Future<bool> save() async {
     final _values = {};
     _classMirror.declarations.forEach((s, v) {
       final columnName = _getColumnName(v);
-      // TODO: some instances may need to be convert
-      // the simple implementation just uses the primary type of the instance files
       if (columnName != null) {
         _values[columnName] = _instanceMirror.getField(s).reflectee;
       }

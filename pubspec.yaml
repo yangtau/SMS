@@ -1,7 +1,6 @@
-name: shelf_learn
+name: SMS
 description: A web server built using the shelf package.
 # version: 1.0.0
-# homepage: https://www.example.com
 # author: qyang <email@example.com>
 
 environment:
@@ -14,7 +13,7 @@ dependencies:
   sqljocky5: ^2.2.1
   test: ^1.5.3
   random_string: ^0.0.2
-
+  # rxdart: ^0.21.0
 
 dev_dependencies:
   pedantic: ^1.0.0

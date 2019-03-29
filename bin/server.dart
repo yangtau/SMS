@@ -1,9 +1,9 @@
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf_static/shelf_static.dart';
-import 'package:shelf_learn/router.dart' show createRouterHandler;
-import 'package:shelf_learn/database.dart' show initDB, ConnectionSettings;
-import 'login.dart';
+import 'package:SMS/router.dart' show createRouterHandler;
+import 'package:SMS/database.dart' show initDB, ConnectionSettings;
+import 'views.dart';
 
 main(List<String> args) async {
   final port = 8080;
@@ -12,7 +12,7 @@ main(List<String> args) async {
       .add(createStaticHandler('web'))
       .handler;
   handler = const Pipeline().addMiddleware(logRequests()).addHandler(handler);
-  
+
   initDB(ConnectionSettings(
     user: "root",
     password: "123456",
@@ -24,4 +24,3 @@ main(List<String> args) async {
   var server = await io.serve(handler, 'localhost', port);
   print('Serving at http://${server.address.host}:${server.port}');
 }
-

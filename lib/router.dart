@@ -31,7 +31,7 @@ Map<String, MethodMirror> _scanRouter() {
           ?.reflectee;
       if (router != null) {
         routeTable[router.method + '#' + router.path] = declar;
-        print('${router.method}#${router.path}');
+        print('add ${router.method}#${router.path}');
       }
     });
   });
@@ -41,7 +41,7 @@ Map<String, MethodMirror> _scanRouter() {
 Handler createRouterHandler({Handler notFound}) {
   final routeTable = _scanRouter();
   return (Request request) async {
-    var handler = routeTable['${request.method}#${request.url}'];
+    var handler = routeTable['${request.method}#${request.requestedUri.path}'];
     if (handler == null) return notFound ?? Response.notFound('Not Found');
     LibraryMirror owner = handler.owner;
     return owner.invoke(handler.simpleName, [request]).reflectee;

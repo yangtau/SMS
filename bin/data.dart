@@ -1,4 +1,4 @@
-import 'package:shelf_learn/database.dart';
+import 'package:SMS/database.dart';
 
 @Table('students')
 class Student extends DBBean {
@@ -12,6 +12,17 @@ class Student extends DBBean {
   final String phonenumber;
 
   Student({this.id, this.name, this.email, this.phonenumber});
+
+  /// using for json.encode()
+  Student.fromJson(Map data)
+      : id = data['id'],
+        name = data['name'],
+        email = data['email'],
+        phonenumber = data['phonenumber'] {
+    if (id == null || name == null) {
+      throw 'The ID or name of the student should not be null';
+    }
+  }
 
   @override
   String toString() =>

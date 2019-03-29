@@ -25,8 +25,16 @@ Future<bool> insetMutil(
   final conn = await connectDB();
   String sql =
       'insert into $tableName (${keys.join(', ')}) values (${_getPlaceHolder(keys.length)})';
-  // print(sql);
-  await conn.preparedWithAll(sql, values);
+  final trans = await conn.begin();
+  try {
+    for (var v in values) await trans.prepared(sql, v);
+    // await trans.preparedWithAll(sql, values);
+    await trans.commit();
+  } on MySqlException catch (_) {
+    await trans.rollback();
+    rethrow;
+  }
+  // await conn.preparedWithAll(sql, values);
   return true;
 }
 

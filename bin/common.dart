@@ -1,24 +1,37 @@
 import 'package:random_string/random_string.dart' show randomAlphaNumeric;
 import 'package:shelf/shelf.dart' show Response;
 import 'dart:convert' show json;
-import 'dart:io' show ContentType;
 
 const OK = 200;
 const INVALID_REQUEST = 400;
+const INVALID_FORMAT = 407;
 const PASSWORD_ERROR = 401;
 const DB_ERROR = 409;
 const INVALID_PASSWORD = 402; // format for new password
+const NO_AUTH = 403;
 const _StatusMsg = {
   200: 'ok',
   400: 'invalid request',
   401: 'password error',
   402: 'invalid password',
-  409: 'server database error'
+  403: 'no authorization', //authorization
+  409: 'server database error',
+  407: 'invalid format of request body'
 };
 
-Response errorResponse(int code) =>
-    Response.ok(json.encode({"code": code, 'msg': _StatusMsg[code]}),
-        headers: {'Content-Type': 'application/json'});
+///
+/// [data]
+/// [stautsCode] is 200 by default
+Response responseJson(Map<String, dynamic> data,
+    {int statusCode = 200, Map<String, String> headers}) {
+  headers ??= {};
+  headers['content-type'] = 'application/json';
+  return Response(statusCode = statusCode,
+      headers: headers, body: json.encode(data));
+}
+
+Response errorResponse(int code, {String msg}) =>
+    responseJson({"code": code, 'msg': msg ?? _StatusMsg[code]});
 
 class TokenManager {
   static const EXPIRE_DURATION = const Duration(hours: 1);
