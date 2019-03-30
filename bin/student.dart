@@ -9,6 +9,7 @@ import 'dart:convert' show json;
 import 'logger.dart' as logger show log;
 
 const Set Papameter = const {'name', 'id', 'email', 'phonenumber'};
+final _tokenMgr = TokenManager.getInstance();
 
 /// find response format
 /// {
@@ -22,7 +23,8 @@ const Set Papameter = const {'name', 'id', 'email', 'phonenumber'};
 /// api/student?id= &name= &email= &phonenumber= &limit=
 @Router('GET', '/api/student/find')
 Future<Response> find(Request request) async {
-  if (!_checkCookie(request.headers)) return errorResponse(NO_AUTH);
+  if (!_tokenMgr.checkTokenFromHeaders(request.headers))
+    return errorResponse(NO_AUTH);
   var where =
       request.requestedUri.queryParameters.map((a, b) => MapEntry(a, b));
   // -2 is invalid
@@ -50,7 +52,8 @@ Future<Response> find(Request request) async {
 /// }
 @Router('POST', '/api/student/insert')
 Future<Response> insert(Request request) async {
-  if (!_checkCookie(request.headers)) return errorResponse(NO_AUTH);
+  if (!_tokenMgr.checkTokenFromHeaders(request.headers))
+    return errorResponse(NO_AUTH);
   if (request.headers['Content-Type'] != 'application/json')
     return errorResponse(INVALID_REQUEST);
   final students = <Student>[];
@@ -81,7 +84,8 @@ Future<Response> insert(Request request) async {
 /// }
 @Router('POST', '/api/student/delete')
 Future<Response> deleteById(Request request) async {
-  if (!_checkCookie(request.headers)) return errorResponse(NO_AUTH);
+  if (!_tokenMgr.checkTokenFromHeaders(request.headers))
+    return errorResponse(NO_AUTH);
   if (request.headers['Content-Type'] != 'application/json')
     return errorResponse(INVALID_REQUEST);
   var ids = [];
@@ -115,7 +119,8 @@ Future<Response> deleteById(Request request) async {
 /// }
 @Router('POST', '/api/student/update')
 Future<Response> update(Request request) async {
-  if (!_checkCookie(request.headers)) return errorResponse(NO_AUTH);
+  if (!_tokenMgr.checkTokenFromHeaders(request.headers))
+    return errorResponse(NO_AUTH);
   if (request.headers['Content-Type'] != 'application/json')
     return errorResponse(INVALID_REQUEST);
   final students = <Student>[];
@@ -141,9 +146,9 @@ Future<Response> update(Request request) async {
   }
 }
 
-bool _checkCookie(Map<String, String> headers) {
-  var cookies = headers['cookie'];
-  if (cookies == null || cookies == '') return false;
-  final token = Cookie.fromSetCookieValue(cookies).value;
-  return TokenManager.getInstance().contains(token);
-}
+// bool _checkCookie(Map<String, String> headers) {
+//   var cookies = headers['cookie'];
+//   if (cookies == null || cookies == '') return false;
+//   final token = Cookie.fromSetCookieValue(cookies).value;
+//   return TokenManager.getInstance().contains(token);
+// }

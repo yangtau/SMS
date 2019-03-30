@@ -1,6 +1,7 @@
 import 'package:random_string/random_string.dart' show randomAlphaNumeric;
 import 'package:shelf/shelf.dart' show Response;
 import 'dart:convert' show json;
+import 'dart:io' show Cookie;
 
 const OK = 200;
 const INVALID_REQUEST = 400;
@@ -35,6 +36,14 @@ Response responseJson(Map<String, dynamic> data,
 Response errorResponse(int code, {String msg}) =>
     responseJson({"code": code, 'msg': msg ?? _StatusMsg[code]});
 
+String getTokenFromHeaders(Map<String, String> headers) {
+  final cookies = headers['cookie']
+      .split('; ')
+      .firstWhere((s) => s.startsWith('token'), orElse: () => null);
+  if (cookies == null) return null;
+  return Cookie.fromSetCookieValue(cookies).value;
+}
+
 class TokenManager {
   static const EXPIRE_DURATION = const Duration(hours: 1);
   // token -> expire
@@ -62,7 +71,19 @@ class TokenManager {
 
   void removeToken(String token) => _tokens.remove(token);
 
-  bool contains(String token) => _tokens.containsKey(token);
+  bool checkTokenFromHeaders(Map<String, String> headers) {
+    final token = getTokenFromHeaders(headers);
+    if (token == null) {
+      return false;
+    }
+    return contains(token);
+  }
+
+  bool contains(String token) {
+    final res = _tokens.containsKey(token);
+    if (res) _tokens[token] = DateTime.now().add(EXPIRE_DURATION);
+    return res;
+  }
 
   bool isExpiring(String token) {
     if (_tokens[token]?.difference(DateTime.now())?.isNegative ?? true) {

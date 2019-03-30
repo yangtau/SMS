@@ -17,7 +17,6 @@ import 'logger.dart' as logger show log, Level;
 ///   "code": 200,
 ///   "token": token
 /// }
-///
 @Router('POST', '/api/user/login')
 Future<Response> login(Request request) async {
   final body = await _parseBody(request);
@@ -42,11 +41,18 @@ Future<Response> login(Request request) async {
       ..path = '/';
     logger.log('user login id: $id');
     return responseJson({"code": OK, "token": token},
-        headers: {'Set-Cookie': cookie.toString()});
+        headers: {'set-cookie': cookie.toString()});
   } on db.MySqlException catch (e) {
     logger.log('db error: $e', level: logger.Level.warnning);
     return errorResponse(DB_ERROR);
   }
+}
+
+@Router('GET', '/api/user/check')
+Response check(Request request) {
+  return Response.ok(TokenManager.getInstance()
+      .checkTokenFromHeaders(request.headers)
+      .toString());
 }
 
 ///
@@ -57,9 +63,7 @@ Future<Response> login(Request request) async {
 ///
 @Router('GET', '/api/user/logout')
 Future<Response> logout(Request request) async {
-  var cookies = request.headers['cookie'];
-  if (cookies == null || cookies == '') return errorResponse(INVALID_REQUEST);
-  final token = Cookie.fromSetCookieValue(cookies).value;
+  final token = getTokenFromHeaders(request.headers);
   final _tokenM = TokenManager.getInstance();
   if (!_tokenM.contains(token)) return errorResponse(INVALID_REQUEST);
   _tokenM.removeToken(token);

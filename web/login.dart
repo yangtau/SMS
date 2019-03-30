@@ -1,9 +1,11 @@
 import 'dart:html';
 import 'dart:convert' show json;
 
-const uri = 'http://localhost:8080';
+final baseUrl = 'http://' + window.location.host;
 
-main() {
+main() async {
+  final check = await HttpRequest.request(baseUrl + '/api/user/check');
+  if (check.responseText == 'true') moveToHome();
   ButtonElement submitBtn = querySelector('#submit_btn');
   PasswordInputElement passInput = querySelector('#password_input');
   InputElement idInput = querySelector('#id_input');
@@ -33,16 +35,23 @@ dispalyErrorMsg(String msg) {
 }
 
 login(String id, String password) async {
-  final url = uri + '/api/user/login';
-  print('$id, $password');
+  final url = baseUrl + '/api/user/login';
   final body = {"id": id, "password": password};
   final response = await HttpRequest.request(url,
       method: 'POST',
       requestHeaders: {'Content-Type': 'application/json'},
       sendData: json.encode(body));
-  final res = json.decode(response.responseText);
-  if (res['code'] == 200)
-    window.location.href = uri + '/home.html';
-  else
-    dispalyErrorMsg('Check your id and password!!! Msg: ${res['msg']}.');
+  if (response.status == 200) {
+    final res = json.decode(response.responseText);
+    if (res['code'] == 200) {
+      moveToHome();
+    } else
+      dispalyErrorMsg('Check your id and password!!! Msg: ${res['msg']}.');
+  } else {
+    dispalyErrorMsg('Something goes wrong. Check your internet connection.');
+  }
+}
+
+moveToHome() {
+  window.location.href = baseUrl + '/home.html';
 }
