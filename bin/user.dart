@@ -3,9 +3,9 @@ import 'package:shelf/shelf.dart' show Request, Response;
 import 'dart:io' show Cookie;
 import 'dart:convert' show utf8, json;
 import 'data.dart' show User;
-import 'package:SMS/database.dart' as db show findFirst;
+import 'package:SMS/database.dart' as db show findFirst, MySqlException;
 import 'common.dart';
-import 'logger.dart' as logger show log;
+import 'logger.dart' as logger show log, Level;
 
 /// Requst format
 /// {
@@ -24,13 +24,14 @@ Future<Response> login(Request request) async {
   if (body == null) {
     return errorResponse(INVALID_REQUEST);
   }
-  
+
   final id = body['id'], password = body['password'];
   if (id == null || password == null) {
     return errorResponse(INVALID_FORMAT);
   }
   try {
-    User user = await db.findFirst<User>(where: {'id': id});
+    final user = await db.findFirst<User>(where: {'id': id});
+    if (user == null) return errorResponse(ID_ERROR);
     if (user.password != password) {
       return errorResponse(PASSWORD_ERROR);
     }
@@ -38,11 +39,12 @@ Future<Response> login(Request request) async {
     final cookie = Cookie('token', token)
       ..expires = DateTime.now().add(TokenManager.EXPIRE_DURATION)
       ..httpOnly = true
-      ..path='/';
+      ..path = '/';
     logger.log('user login id: $id');
     return responseJson({"code": OK, "token": token},
         headers: {'Set-Cookie': cookie.toString()});
-  } catch (_) {
+  } on db.MySqlException catch (e) {
+    logger.log('db error: $e', level: logger.Level.warnning);
     return errorResponse(DB_ERROR);
   }
 }

@@ -51,8 +51,11 @@ Future<List<T>> findWithCount<T extends DBBean>(int count,
   return res.map(newInstance).toList();
 }
 
-Future<T> findFirst<T extends DBBean>({Map where = const {}}) async =>
-    (await findWithCount<T>(1, where: where)).first;
+// return null if no data found
+Future<T> findFirst<T extends DBBean>({Map where = const {}}) async {
+  final res = await findWithCount<T>(1, where: where);
+  return (res?.isEmpty ?? true) ? null : res.first;
+}
 
 Future<List<T>> findAll<T extends DBBean>({Map where = const {}}) async =>
     findWithCount<T>(-1, where: where);

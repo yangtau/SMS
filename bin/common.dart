@@ -9,6 +9,7 @@ const PASSWORD_ERROR = 401;
 const DB_ERROR = 409;
 const INVALID_PASSWORD = 402; // format for new password
 const NO_AUTH = 403;
+const ID_ERROR = 408;
 const _StatusMsg = {
   200: 'ok',
   400: 'invalid request',
@@ -16,7 +17,8 @@ const _StatusMsg = {
   402: 'invalid password',
   403: 'no authorization', //authorization
   409: 'server database error',
-  407: 'invalid format of request body'
+  407: 'invalid format of request body',
+  408: 'No such id'
 };
 
 ///
