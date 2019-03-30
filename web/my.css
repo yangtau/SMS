@@ -1,0 +1,82 @@
+body, h1, h2, h3, h4, h5, h6, p {
+    font-family: "Roboto", sans-serif;
+}
+
+.card {
+    width: 500px;
+    /* padding: 16px; */
+    margin: 10% auto auto;
+}
+
+@media screen and (max-width: 500px) {
+    .card {
+        width: 100%;
+    }
+}
+
+@media (max-width:800px) {
+    .hide-small {
+        display: none
+    }
+    .main {
+        margin-top: 83px;
+        margin-left: 0!important;
+        margin-right: 0!important
+    }
+}
+
+@media (min-width:800px) {
+    .hide-large {
+        display: none!important
+    }
+    .display-large {
+        display: block!important
+    }
+}
+
+.main {
+    transition: margin-left .4s;
+    transition: margin-top .4s
+}
+
+.card-fading {
+    animation: fading 2s;
+    display: none;
+    position: relative;
+}
+
+@keyframes fading {
+    0% {
+        opacity: 0
+    }
+    100% {
+        opacity: 1
+    }
+}
+
+table {
+    width: 95%;
+    margin: auto;
+    border-collapse: collapse;
+    border: #ddd 1px solid;
+}
+
+th {
+    background-color: #757575;
+    color: white
+}
+
+th, td {
+    text-align: left;
+    padding: 6px;
+    border: 1px solid #ddd;
+    width: 20%;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background: #ddd;
+}

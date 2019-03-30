@@ -5,45 +5,15 @@
     <title>Log In</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="w3.css">
-    <style>
-        #password_input,
-        #id_input {
-            width: 30%;
-        }
+    <link rel="stylesheet" href="css.css">
+    <link rel="stylesheet" href="my.css">
 
-        .login-card {
-            width: 500px;
-            margin: 10% auto auto;
-        }
-
-        @media screen and (max-width: 500px) {
-            .login-card {
-                width: 100%;
-            }
-        }
-
-        .card-fading {
-            animation: fading 2s;
-            display: none;
-            position: relative;
-        }
-
-        @keyframes fading {
-            0% {
-                opacity: 0
-            }
-
-            100% {
-                opacity: 1
-            }
-        }
-    </style>
 </head>
 
 <body>
 
 
-    <div class="w3-container login-card w3-animate-top">
+    <div class="w3-container card w3-animate-top">
         <div class="w3-card-4">
             <div class="w3-container">
                 <h2><b>Login</b></h2>
@@ -52,14 +22,14 @@
             <form class="w3-container">
                 <p>
                     <label for="id_input"><b>ID</b></label>
-                    <input type="text" class="w3-input w3-animate-input" id="id_input">
+                    <input type="text" class="w3-input" id="id_input">
                 </p>
                 <p>
                     <label for="password_input"><b>Password</b></label>
-                    <input type="password" class="w3-input w3-animate-input" id="password_input">
+                    <input type="password" class="w3-input" id="password_input">
                 </p>
                 <p>
-                    <button class="w3-teal w3-btn" type="button" id="submit_btn">submit</button>
+                    <button class="w3-black w3-btn" type="button" id="submit_btn">submit</button>
                 </p>
 
             </form>
