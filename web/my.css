@@ -80,3 +80,10 @@ tr:nth-child(even) {
 tr:hover {
     background: #ddd;
 }
+
+.my-input {
+    padding: 8px;
+    display: inline;
+    border: none;
+    border-bottom: 1px solid #ccc;
+}

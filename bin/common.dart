@@ -38,8 +38,8 @@ Response errorResponse(int code, {String msg}) =>
 
 String getTokenFromHeaders(Map<String, String> headers) {
   final cookies = headers['cookie']
-      .split('; ')
-      .firstWhere((s) => s.startsWith('token'), orElse: () => null);
+      ?.split('; ')
+      ?.firstWhere((s) => s.startsWith('token'), orElse: () => null);
   if (cookies == null) return null;
   return Cookie.fromSetCookieValue(cookies).value;
 }
@@ -76,6 +76,7 @@ class TokenManager {
     if (token == null) {
       return false;
     }
+    // print('tokens: $_tokens');
     return contains(token);
   }
 

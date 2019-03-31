@@ -5,15 +5,17 @@ final baseUrl = 'http://' + window.location.host;
 
 main() async {
   final check = await HttpRequest.request(baseUrl + '/api/user/check');
-  if (check.responseText == 'true') moveToHome();
+  if (check.status == 200 && check.responseText == 'true') {
+    moveToHome();
+  }
   ButtonElement submitBtn = querySelector('#submit_btn');
   PasswordInputElement passInput = querySelector('#password_input');
   InputElement idInput = querySelector('#id_input');
   submitBtn.onClick.listen((e) {
-    if (passInput.value != '' && idInput.value != '') {
+    if (passInput.value.length >= 8 && idInput.value != '') {
       login(idInput.value, passInput.value);
     } else {
-      displayWarnMsg('ID or password cannot be empty!');
+      displayWarnMsg('ID or password are too short!');
     }
   });
 }
@@ -44,6 +46,7 @@ login(String id, String password) async {
   if (response.status == 200) {
     final res = json.decode(response.responseText);
     if (res['code'] == 200) {
+      document.cookie += ' ;id=$id';
       moveToHome();
     } else
       dispalyErrorMsg('Check your id and password!!! Msg: ${res['msg']}.');
@@ -53,5 +56,5 @@ login(String id, String password) async {
 }
 
 moveToHome() {
-  window.location.href = baseUrl + '/home.html';
+  window.location.href = baseUrl;
 }

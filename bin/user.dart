@@ -40,6 +40,7 @@ Future<Response> login(Request request) async {
       ..httpOnly = true
       ..path = '/';
     logger.log('user login id: $id');
+    // print(cookie.toString());
     return responseJson({"code": OK, "token": token},
         headers: {'set-cookie': cookie.toString()});
   } on db.MySqlException catch (e) {
@@ -49,11 +50,13 @@ Future<Response> login(Request request) async {
 }
 
 @Router('GET', '/api/user/check')
-Response check(Request request) {
-  return Response.ok(TokenManager.getInstance()
-      .checkTokenFromHeaders(request.headers)
-      .toString());
-}
+Response check(Request request) => Response.ok(TokenManager.getInstance()
+    .checkTokenFromHeaders(request.headers)
+    .toString());
+
+@Router('GET', '/api/user/id')
+Response getId(Request request) =>
+    Response.ok(getTokenFromHeaders(request.headers)?.split('#')?.last ?? '');
 
 ///
 ///Response format
