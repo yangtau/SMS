@@ -61,6 +61,7 @@
 
             <div class="w3-card card">
 
+
                 <div class="w3-bar w3-black">
                     <button class="w3-button w3-bar-item" onclick="showTab('logout')">Log Out</button>
                     <button class="w3-button w3-bar-item" onclick="showTab('update-password')">Update
@@ -68,27 +69,30 @@
                     <a class=" w3-right w3-bar-item" id="id-text"> id</a>
                 </div>
 
+                <!-- log out tab -->
                 <div class="w3-container tab" style="height: 300px;" id="logout">
                     <p class="w3-center" style="margin-top: 50px">
                         Log out your account.
                     </p>
                     <p class="w3-center">
-                        <button class="w3-btn w3-black" style="margin-top: 50px">Logout</button>
+                        <button class="w3-btn w3-black" style="margin-top: 50px" id="logout-btn">Logout</button>
                     </p>
                 </div>
 
+                <!-- update password tab -->
                 <form class="w3-container tab" style="height: 300px;display: none" id="update-password">
                     <h4>Update Password</h4>
                     <p>
-                        <input class="w3-input" type="password" placeholder="old password">
+                        <input class="w3-input" type="password" placeholder="old password" id="old-password-input">
                     </p>
                     <p>
-                        <input class="w3-input" type="password" placeholder="new password">
+                        <input class="w3-input" type="password" placeholder="new password" id="new-password-input">
                     </p>
                     <p>
-                        <input class="w3-input" type="password" placeholder="repeat your new password">
+                        <input class="w3-input" type="password" placeholder="repeat your new password"
+                            id="re-new-password-input">
                     </p>
-                    <button class="w3-btn w3-black">Submit</button>
+                    <button class="w3-btn w3-black" id="update-password-btn" type="button">Submit</button>
                 </form>
 
                 <div class="w3-panel w3-yellow  card-fading" id="warn_card">

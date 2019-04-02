@@ -1,6 +1,6 @@
 import 'dart:html';
 import 'dart:convert' show json;
-
+import 'msg.dart';
 final baseUrl = 'http://' + window.location.host;
 
 main() async {
@@ -11,32 +11,18 @@ main() async {
   ButtonElement submitBtn = querySelector('#submit_btn');
   PasswordInputElement passInput = querySelector('#password_input');
   InputElement idInput = querySelector('#id_input');
-  submitBtn.onClick.listen((e) {
-    if (passInput.value.length >= 8 && idInput.value != '') {
-      login(idInput.value, passInput.value);
-    } else {
-      displayWarnMsg('ID or password are too short!');
-    }
-  });
+  idInput.onInput.listen((_) => hideMsg());
+  passInput.onInput.listen((_) => hideMsg());
+  submitBtn.onClick.listen((e) => login(idInput.value, passInput.value));
 }
 
-displayWarnMsg(String msg) {
-  querySelector('#warn_card').style.display = 'none';
-  querySelector('#error_card').style.display = 'none';
-  final warn = querySelector('#warn_msg');
-  warn.text = msg;
-  querySelector('#warn_card').style.display = 'block';
-}
-
-dispalyErrorMsg(String msg) {
-  querySelector('#warn_card').style.display = 'none';
-  querySelector('#error_card').style.display = 'none';
-  final warn = querySelector('#error_msg');
-  warn.text = msg;
-  querySelector('#error_card').style.display = 'block';
-}
 
 login(String id, String password) async {
+  // hideMsg();
+  if (password.length < 8 || id == '') {
+    displayWarnMsg('ID or password are too short!');
+    return;
+  }
   final url = baseUrl + '/api/user/login';
   final body = {"id": id, "password": password};
   final response = await HttpRequest.request(url,

@@ -17,6 +17,7 @@ import 'logger.dart' as logger show log, Level;
 ///   "code": 200,
 ///   "token": token
 /// }
+
 @Router('POST', '/api/user/login')
 Future<Response> login(Request request) async {
   final body = await _parseBody(request);
@@ -68,6 +69,7 @@ Response getId(Request request) =>
 Future<Response> logout(Request request) async {
   final token = getTokenFromHeaders(request.headers);
   final _tokenM = TokenManager.getInstance();
+  // should never happen
   if (!_tokenM.contains(token)) return errorResponse(INVALID_REQUEST);
   _tokenM.removeToken(token);
   logger.log('log out');
@@ -111,6 +113,9 @@ Future<Response> updatePassword(Request request) async {
         .updateByPrimaryKey();
     if (res) {
       logger.log('update password id: $id');
+      // remove token
+      final token = getTokenFromHeaders(request.headers);
+      TokenManager.getInstance().removeToken(token);
       return responseJson({'code': OK});
     } else {
       return errorResponse(DB_ERROR);

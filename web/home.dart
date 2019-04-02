@@ -1,5 +1,6 @@
 import 'dart:html';
 import 'dart:convert' show json;
+import 'msg.dart';
 
 final baseUrl = 'http://' + window.location.host;
 var id = '';
@@ -25,6 +26,63 @@ void init() {
     final data = await find(id: id, name: name);
     loadData(data);
   });
+  // logout
+  querySelector('#logout-btn').onClick.listen((e) async {
+    final res = await HttpRequest.request(baseUrl + '/api/user/logout');
+    if (res.status == 200) {
+      window.location.href = baseUrl;
+      window.alert('OK: log out.');
+    }
+  });
+  //update password
+  querySelector('#update-password-btn').onClick.listen((_) => updatePassword());
+  querySelector('#old-password-input').onClick.listen((e) => hideMsg());
+  querySelector('#new-password-input').onClick.listen((e) => hideMsg());
+  querySelector('#re-new-password-input').onClick.listen((e) => hideMsg());
+}
+
+void updatePassword() async {
+  InputElement oldPw = querySelector('#old-password-input'),
+      newPw = querySelector('#new-password-input'),
+      reNewPw = querySelector('#re-new-password-input');
+  if (newPw.value != reNewPw.value) {
+    print(
+        'new:${newPw.value}, re:${reNewPw.value} equal:${newPw.value != reNewPw.value}');
+    displayWarnMsg('Your two inputs of the new password should be the same.');
+  } else if (oldPw.value.length < 8 ||
+      newPw.value.length < 8 ||
+      reNewPw.value.length < 8) {
+    displayWarnMsg('Your password is too short.');
+    return;
+  } else if (id == '') {
+    await setId();
+    if (id == ' ') {
+      dispalyErrorMsg('Some unexpected error happened.');
+    }
+  }
+  else {
+    final res = await HttpRequest.request(
+    baseUrl + '/api/user/update-password',
+    method: 'POST',
+    sendData: json.encode({
+      'id': id,
+      'password': oldPw.value,
+      'new-password': newPw.value,
+    }),
+    requestHeaders: {'Content-Type': 'application/json'},
+  );
+  if (res.status == 200) {
+    final body = json.decode(res.responseText);
+    if (body['code'] == 200) {
+      window.location.href = baseUrl;
+      window.alert('Please use your new password to login again.');
+    } else {
+      dispalyErrorMsg('Error: ${body['msg']}.');
+    }
+  } else {
+    dispalyErrorMsg('Some unexpected error happened.');
+  }
+  }
 }
 
 void loadData(data) {
