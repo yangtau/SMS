@@ -55,10 +55,6 @@ Response check(Request request) => Response.ok(TokenManager.getInstance()
     .checkTokenFromHeaders(request.headers)
     .toString());
 
-@Router('GET', '/api/user/id')
-Response getId(Request request) =>
-    Response.ok(getTokenFromHeaders(request.headers)?.split('#')?.last ?? '');
-
 ///
 ///Response format
 /// {

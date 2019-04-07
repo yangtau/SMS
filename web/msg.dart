@@ -18,3 +18,13 @@ dispalyErrorMsg(String msg) {
   warn.text = msg;
   querySelector('#error_card').style.display = 'block';
 }
+
+showInfo(String title, String msg, {Function onYesClick}) {
+  querySelector('#info-title').text = title;
+  querySelector('#info-msg').text = msg;
+  if (onYesClick != null)
+    querySelector('#accept-info-btn')
+      ..onClick.listen(onYesClick)
+      ..style.display = 'inline';
+  querySelector('#info-card').style.display = 'block';
+}

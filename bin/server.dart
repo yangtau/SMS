@@ -11,7 +11,10 @@ main(List<String> args) async {
       .add(createRouterHandler())
       .add(createStaticHandler('web', defaultDocument: 'home.html'))
       .handler;
-  handler = const Pipeline().addMiddleware(logRequests()).addHandler(handler);
+  handler = const Pipeline()
+      .addMiddleware(logRequests())
+      // .addMiddleware(createMiddleware(requestHandler: checkCookie))
+      .addHandler(handler);
 
   initDB(ConnectionSettings(
     user: "root",

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html style="height:100%">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SMS user</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="w3.css">
+    <link rel="stylesheet" href="css.css">
+    <link rel="stylesheet" href="my.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .content {
+            position: relative;
+            animation: animatetop 0.4s
+        }
+    </style>
+</head>
+
+
+<body class="w3-light-gray w3-content" style="height:100%;max-width: 1200px;">
+    <!-- nav sidebar -->
+    <nav class="w3-sidebar w3-bar-block w3-white w3-top hide-small display-large" style="z-index:3; width: 250px;"
+        id="sidebar">
+        <div class="w3-container w3-display-container w3-padding-16">
+            <h3 class="w3-wide"><b>SMS</b></h3>
+            <i onclick="closeSidebar()" class="fa fa-remove hide-large w3-button w3-display-topright"></i>
+        </div>
+        <!-- tab -->
+        <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
+            <a class="w3-bar-item w3-button tab-btn" id="user-tab-btn" style="color: black"
+                onclick="showContent('user')">User</a>
+            <a class="w3-bar-item w3-button tab-btn" id="student-tab-btn" onclick="showContent('home')">Student</a>
+            <div class="w3-bar-block w3-medium" style="margin-left: 16px">
+                <a class="w3-bar-item w3-button tab-btn" id="student-find-btn" onclick="showContent('find')">Find</a>
+                <a class="w3-bar-item w3-button tab-btn" id="student-add-btn" onclick="showContent('add')">Add</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="w3-bar w3-top hide-large w3-black w3-xlarge">
+        <div class="w3-bar-item w3-padding-24 w3-wide">SMS</div>
+        <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" onclick="openSidebar()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </header>
+
+    <div class="w3-overlay hide-large" onclick="closeSidebar()" style="cursor:pointer" title="close side menu"
+        id="overlay"></div>
+
+    <!-- msg box -->
+    <div class="my-overlay" id="info-card">
+        <div class="card w3-white w3-container" style="position: relative;padding: 16px">
+            <span onclick="document.getElementById('info-card').style.display='none'"
+                class="fa fa-remove w3-button w3-display-topright"></span>
+            <h3 id="info-title">
+                TITLE
+            </h3>
+            <p class="w3-medium" id="info-msg">
+                This is a mag;
+            </p>
+            <p>
+                <button class="w3-black w3-btn" type="button" id="accept-info-btn" style="display: none"
+                    id="info-yes-btn">YES</button>
+                <button class="w3-black w3-btn w3-right" type="button" id="close-info-btn"
+                    onclick="document.getElementById('info-card').style.display='none'">CLOSE</button>
+            </p>
+        </div>
+    </div>
+
+    <!-- content -->
+    <div class="main" style="margin-left: 260px; height:100%">
+        <!-- user -->
+        <div class="w3-white content" style="height: 100%" id="user">
+            <header class="w3-container w3-xlarge">
+                <h2 class="w3-left">User</h2>
+            </header>
+
+            <div class="w3-card card">
+
+                <div class="w3-bar w3-black w3-large">
+                    <button class="w3-button w3-bar-item" onclick="showTab('logout')">Sign out</button>
+                    <button class="w3-button w3-bar-item" onclick="showTab('update-password')">Change
+                        password</button>
+                    <a class=" w3-right w3-bar-item" id="id-text"> id</a>
+                </div>
+
+                <!-- log out tab -->
+                <div class="w3-container tab w3-medium" style="height: 300px;" id="logout">
+                    <p class="w3-center" style="margin-top: 50px">
+                        Sign out your account.
+                    </p>
+                    <p class="w3-center">
+                        <button class="w3-btn w3-black" style="margin-top: 50px" id="logout-btn">Sign Out</button>
+                    </p>
+                </div>
+
+                <!-- update password tab -->
+                <form class="w3-container tab w3-medium" style="height: 300px;display: none" id="update-password">
+                    <h4>Change Password</h4>
+                    <p>
+                        <input class="w3-input" type="password" placeholder="current password" id="old-password-input">
+                    </p>
+                    <p>
+                        <input class="w3-input" type="password" placeholder="new password" id="new-password-input">
+                    </p>
+                    <p>
+                        <input class="w3-input" type="password" placeholder="new password (again)"
+                            id="re-new-password-input">
+                    </p>
+                    <p class="w3-center">
+                        <button class="w3-btn w3-black" id="update-password-btn" type="button">Change Password</button>
+                    </p>
+                </form>
+
+                <div class="w3-panel w3-yellow  card-fading" id="warn_card">
+                    <span onclick="this.parentElement.style.display='none'"
+                        class="w3-button w3-large w3-display-topright">&times;</span>
+                    <h3>Warning!</h3>
+                    <p id="warn_msg"></p>
+                </div>
+
+                <div class="w3-panel w3-red  card-fading w3-container" id="error_card">
+                    <span onclick="this.parentElement.style.display='none'"
+                        class="w3-button w3-large w3-display-topright">&times;</span>
+                    <h3>Error!</h3>
+                    <p id="error_msg"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="user.dart.js" type="text/javascript"></script>
+    <script>
+        function openSidebar() {
+            document.getElementById("sidebar").style.display = "block";
+            document.getElementById("overlay").style.display = "block";
+        }
+        function closeSidebar() {
+            document.getElementById("sidebar").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+        }
+
+        function showTab(name) {
+            var i;
+            var x = document.getElementsByClassName("tab");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            document.getElementById(name).style.display = "block";
+        }
+
+        function showContent(name) {
+            window.location.href = 'http://' + window.location.host + '/' + name + '.html';
+        }
+    </script>
+
+</body>
+
+</html>

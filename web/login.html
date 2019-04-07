@@ -12,43 +12,43 @@
 <body>
 
 
-    <div class="w3-container card w3-animate-top">
-        <div class="w3-card-4">
-            <div class="w3-container">
-                <h2><b>Login</b></h2>
-            </div>
+    <div class="card w3-animate-top">
 
-            <form class="w3-container">
-                <p>
-                    <label for="id_input"><b>ID</b></label>
-                    <input type="text" class="w3-input" id="id_input">
-                </p>
-                <p>
-                    <label for="password_input"><b>Password</b></label>
-                    <input type="password" class="w3-input" id="password_input">
-                </p>
-                <p>
-                    <button class="w3-black w3-btn" type="button" id="submit_btn">submit</button>
-                </p>
-
-            </form>
-
-            <div class="w3-panel w3-yellow  card-fading" id="warn_card">
-                <span onclick="this.parentElement.style.display='none'"
-                    class="w3-button w3-large w3-display-topright">&times;</span>
-                <h3>Warning!</h3>
-                <p id="warn_msg"></p>
-            </div>
-
-            <div class="w3-panel w3-red  card-fading w3-container" id="error_card">
-                <span onclick="this.parentElement.style.display='none'"
-                    class="w3-button w3-large w3-display-topright">&times;</span>
-                <h3>ERROR!</h3>
-                <p id="error_msg"></p>
-            </div>
-
-
+        <div class="w3-container">
+            <h2><b>Sign In</b></h2>
         </div>
+
+        <form class="w3-container">
+            <p>
+                <label for="id_input"><b>ID</b></label>
+                <input type="text" class="w3-input" id="id_input">
+            </p>
+            <p>
+                <label for="password_input"><b>Password</b></label>
+                <input type="password" class="w3-input" id="password_input">
+            </p>
+            <p>
+                <button class="w3-black w3-btn" type="button" id="submit_btn">Sign In</button>
+            </p>
+
+        </form>
+
+        <div class="w3-panel w3-yellow  card-fading" id="warn_card">
+            <span onclick="this.parentElement.style.display='none'"
+                class="w3-button w3-large w3-display-topright">&times;</span>
+            <h3>Warning!</h3>
+            <p id="warn_msg"></p>
+        </div>
+
+        <div class="w3-panel w3-red  card-fading w3-container" id="error_card">
+            <span onclick="this.parentElement.style.display='none'"
+                class="w3-button w3-large w3-display-topright">&times;</span>
+            <h3>ERROR!</h3>
+            <p id="error_msg"></p>
+        </div>
+
+
+
     </div>
 
     <script src="login.dart.js" type="application/javascript"></script>
