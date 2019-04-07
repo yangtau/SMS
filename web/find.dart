@@ -14,15 +14,53 @@ main() async {
   loadData(data);
 }
 
+var _row;
+
 void init() {
   querySelector('#find-btn').onClick.listen((e) async {
     InputElement idInput = querySelector('#find-id-input'),
         nameInput = querySelector('#find-name-input');
     final id = idInput.value;
     final name = nameInput.value;
-    // print('$id, $name');
     final data = await find(id: id, name: name);
     loadData(data);
+  });
+
+  InputElement idIn = querySelector('#id-input'),
+      nameIn = querySelector('#name-input'),
+      emailIn = querySelector('#mail-input'),
+      telIn = querySelector('#tel-input');
+  querySelector('#update-btn').onClick.listen((e) async {
+    querySelector('#student-info').style.display = 'none';
+    print('update-click:${_row.rowIndex}');
+    showInfo('WARNNING', 'Update the student with id: ${idIn.value}?',
+        onYesClick: (_) async {
+      bool res = await update(
+          id: idIn.value,
+          name: nameIn.value,
+          mail: emailIn.value,
+          tel: telIn.value);
+      _.style.display = 'none';
+      if (res) {
+        _row.cells[0].text = idIn.value;
+        _row.cells[1].text = nameIn.value;
+        _row.cells[2].text = emailIn.value;
+        _row.cells[3].text = telIn.value;
+      }
+    });
+  });
+  querySelector('#delete-btn').onClick.listen((e) async {
+    querySelector('#student-info').style.display = 'none';
+    print('delete-click:${_row.rowIndex}');
+    showInfo('WARNNING', 'Delete the student with id: ${idIn.value}?',
+        onYesClick: (_) async {
+      bool res = await delete(idIn.value);
+      _.style.display = 'none';
+      if (res) {
+        TableElement table = querySelector('#students-table');
+        table.deleteRow(_row.rowIndex);
+      }
+    });
   });
 }
 
@@ -31,28 +69,29 @@ void loadData(data) {
   TableElement table = querySelector('#students-table');
   for (var i = table.rows.length - 1; i > 0; i--) table.deleteRow(i);
   data.forEach((d) {
-    final row = table.insertRow(-1);
+    final row = table.addRow();
     row.insertCell(0).text = d['id'];
     row.insertCell(1).text = d['name'];
     row.insertCell(2).text = d['email'];
     row.insertCell(3).text = d['phonenumber'];
-    row.onClick.listen((e) =>
-        showStudentInfo(d['id'], d['name'], d['email'], d['phonenumber']));
+    row.style.cursor = 'pointer';
+    row.onClick.listen((e) {
+      _row = row;
+      showStudentInfo();
+    });
   });
 }
 
-showStudentInfo(String id, String name, String email, String tel) {
+showStudentInfo() {
   InputElement idIn = querySelector('#id-input'),
       nameIn = querySelector('#name-input'),
       emailIn = querySelector('#mail-input'),
       telIn = querySelector('#tel-input');
-  idIn.value = id;
-  nameIn.value = name;
-  emailIn.value = email;
-  telIn.value = tel;
+  idIn.value = _row.cells[0].text;
+  nameIn.value = _row.cells[1].text;
+  emailIn.value = _row.cells[2].text;
+  telIn.value = _row.cells[3].text;
   querySelector('#student-info').style.display = 'block';
-  // displayWarnMsg('hhh');
-  // todo update delete
 }
 
 find({String id, String name, int limit}) async {
@@ -73,5 +112,36 @@ find({String id, String name, int limit}) async {
   return null;
 }
 
-update() {}
-delete() {}
+Future<bool> update({String id, String name, String mail, String tel}) async {
+  final res = await HttpRequest.request(
+    baseUrl + '/api/student/update',
+    method: 'POST',
+    requestHeaders: {'Content-Type': 'application/json'},
+    sendData: json.encode({
+      "data": [
+        {'id': id, 'name': name, 'email': mail, 'phonenumber': tel},
+      ]
+    }),
+  );
+  if (res.status == 200) {
+    final body = json.decode(res.responseText);
+    if (body['code'] == 200) return true;
+  }
+  return false;
+}
+
+Future<bool> delete(String id) async {
+  final res = await HttpRequest.request(
+    baseUrl + '/api/student/delete',
+    method: 'POST',
+    requestHeaders: {'Content-Type': 'application/json'},
+    sendData: json.encode({
+      "id": [id]
+    }),
+  );
+  if (res.status == 200) {
+    final body = json.decode(res.responseText);
+    if (body['code'] == 200) return true;
+  }
+  return false;
+}
