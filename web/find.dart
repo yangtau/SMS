@@ -32,7 +32,7 @@ void init() {
       telIn = querySelector('#tel-input');
   querySelector('#update-btn').onClick.listen((e) async {
     querySelector('#student-info').style.display = 'none';
-    print('update-click:${_row.rowIndex}');
+    // print('update-click:${_row.rowIndex}');
     showInfo('WARNNING', 'Update the student with id: ${idIn.value}?',
         onYesClick: (_) async {
       bool res = await update(
@@ -51,7 +51,7 @@ void init() {
   });
   querySelector('#delete-btn').onClick.listen((e) async {
     querySelector('#student-info').style.display = 'none';
-    print('delete-click:${_row.rowIndex}');
+    // print('delete-click:${_row.rowIndex}');
     showInfo('WARNNING', 'Delete the student with id: ${idIn.value}?',
         onYesClick: (_) async {
       bool res = await delete(idIn.value);
@@ -107,7 +107,13 @@ find({String id, String name, int limit}) async {
   );
   if (res.status == 200) {
     final body = json.decode(res.responseText);
-    if (body['code'] == 200) return body['data'];
+    if (body['code'] == 200)
+      return body['data'];
+    else {
+      showInfo('Error', body['msg']);
+    }
+  } else {
+    showInfo('Error', 'Unexpected error!!!');
   }
   return null;
 }
@@ -125,7 +131,13 @@ Future<bool> update({String id, String name, String mail, String tel}) async {
   );
   if (res.status == 200) {
     final body = json.decode(res.responseText);
-    if (body['code'] == 200) return true;
+    if (body['code'] == 200)
+      return true;
+    else {
+      showInfo('Error', body['msg']);
+    }
+  } else {
+    showInfo('Error', 'Unexpected error!!!');
   }
   return false;
 }
@@ -141,7 +153,13 @@ Future<bool> delete(String id) async {
   );
   if (res.status == 200) {
     final body = json.decode(res.responseText);
-    if (body['code'] == 200) return true;
+    if (body['code'] == 200)
+      return true;
+    else {
+      showInfo('Error', body['msg']);
+    }
+  } else {
+    showInfo('Error', 'Unexpected error!!!');
   }
   return false;
 }

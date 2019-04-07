@@ -24,7 +24,10 @@ showInfo(String title, String msg, {void onYesClick(Element e)}) {
   querySelector('#info-msg').text = msg;
   if (onYesClick != null)
     querySelector('#accept-info-btn')
-      ..onClick.listen((_) => onYesClick(querySelector('#info-card')))
+      ..onClick.listen((_) {
+        onYesClick(querySelector('#info-card'));
+        querySelector('#info-card').style.display = 'none';
+      })
       ..style.display = 'inline';
   querySelector('#info-card').style.display = 'block';
 }
