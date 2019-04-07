@@ -33,12 +33,17 @@ main() async {
         table.deleteRow(row.rowIndex);
       });
     });
+    // clear
+    idIn.value = '';
+    nameIn.value = '';
+    emailIn.value = '';
+    telIn.value = '';
   });
   querySelector('#add-all-btn').onClick.listen((_) async {
     TableElement table = querySelector('#students-table');
     final data = <Map>[];
     for (var row in table.rows) {
-      if (row.cells[0].text=='ID') continue;
+      if (row.cells[0].text == 'ID') continue;
       data.add({
         'id': row.cells[0].text,
         'name': row.cells[1].text,
