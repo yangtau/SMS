@@ -6,7 +6,7 @@ import 'package:SMS/database.dart' show initDB, ConnectionSettings;
 import 'views.dart';
 
 main(List<String> args) async {
-  final port = 8080;
+  final port = 80;
   var handler = Cascade()
       .add(createRouterHandler())
       .add(createStaticHandler('web', defaultDocument: 'home.html'))

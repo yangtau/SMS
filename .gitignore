@@ -11,5 +11,6 @@ build/
 doc/api/
 .idea/
 .vscode/
+web/fonts/*
 
 *.js*
