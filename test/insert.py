@@ -3,11 +3,10 @@ import random
 import requests
 import json
 data=[]
-for i in range(2):
+for i in range(1):
     name = names.get_full_name();
     email = name.replace(' ', '').lower()+'@mail.com'
     tel = '1%d'%random.randint(1000000000, 9999999999)
-     
     data.append({
         'name': name, 
         'email': email,
