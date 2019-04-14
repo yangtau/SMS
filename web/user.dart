@@ -17,19 +17,29 @@ void init() {
     querySelector('#id-text').text = window.localStorage['user_id'];
   }
   // logout
-  querySelector('#logout-btn').onClick.listen((e) async {
-    final res = await HttpRequest.request(baseUrl + '/api/user/logout');
-    if (res.status == 200) {
-      showInfo('Done', 'Bye.');
-      await Future.delayed(
-          Duration(seconds: 2), () => window.location.href = baseUrl);
-    }
+  querySelector('#logout-btn').onClick.listen((e) {
+    showInfo('Sign out', 'Are you sure to sign out?', onYesClick: (_) {
+      logout();
+    });
   });
   //update password
-  querySelector('#update-password-btn').onClick.listen((_) => updatePassword());
+  querySelector('#update-password-btn').onClick.listen((_) {
+    showInfo('Change Password', 'Are you sure to change password?', onYesClick: (_) {
+      updatePassword();
+    });
+  });
   querySelector('#old-password-input').onClick.listen((e) => hideMsg());
   querySelector('#new-password-input').onClick.listen((e) => hideMsg());
   querySelector('#re-new-password-input').onClick.listen((e) => hideMsg());
+}
+
+void logout() async {
+  final res = await HttpRequest.request(baseUrl + '/api/user/logout');
+  if (res.status == 200) {
+    showInfo('Done', 'Bye.');
+    await Future.delayed(
+        Duration(seconds: 2), () => window.location.href = baseUrl);
+  }
 }
 
 void updatePassword() async {
@@ -45,7 +55,8 @@ void updatePassword() async {
     displayWarnMsg('Password must be a minimum of 6 characters.');
     return;
   } else if (id == '') {
-    dispalyErrorMsg('Some unexpected error happened. Please log out, and try agin.');
+    dispalyErrorMsg(
+        'Some unexpected error happened. Please log out, and try agin.');
   } else {
     final res = await HttpRequest.request(
       baseUrl + '/api/user/update-password',

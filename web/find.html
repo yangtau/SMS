@@ -114,9 +114,9 @@
     </div>
 
     <!-- content -->
-    <div class="main" style="margin-left: 260px; height:100%">
+    <div class="main w3-white" style="margin-left: 260px; height:100%">
         <!-- student-find -->
-        <div class="w3-white content" style="height: 100%;" id="student-find">
+        <div class="content" style="height: 100%;" id="student-find">
 
             <header class="w3-container w3-xlarge">
                 <h2 class="w3-left">LIST</h2>
@@ -127,7 +127,7 @@
                 </p>
             </header>
 
-            <table class="w3-card table table-striped table-bordered table-sm" id="students-table">
+            <table class="w3-card" id="students-table">
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
@@ -135,6 +135,11 @@
                     <th>Phone Number</th>
                 </tr>
             </table>
+            <p class="w3-right" style="margin-right: 25px;">
+                <button class="w3-btn w3-border fa fa-arrow-left" id="last-page"></button>
+                <b id="page-indicator">1/1</b>
+                <button class="w3-btn w3-border fa fa-arrow-right" id="next-page"></button>
+            </p>
         </div>
     </div>
 
@@ -167,21 +172,7 @@
             document.getElementById('student-info').style.display = 'none';
         }
     </script>
-    <script src="jquery.min.js" type="text/javascript"></script>
-    <script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="datatable/js/jquery.dataTables.js" type="text/javascript"></script>
-    <script src="datatable/js/dataTables.bootstrap.js" type="text/javascript"></script>
 
-    <script type="text/javascript">
-        $(document).ready(
-            function () {
-                $('#students-table').dataTable({
-                    "iDisplayLength": 10,
-                    "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
-                })
-            }
-        )
-    </script>
 
 </body>
 
