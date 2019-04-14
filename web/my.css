@@ -55,7 +55,7 @@ body, h1, h2, h3, h4, h5, h6, p {
     }
 }
 
-table {
+/* table {
     width: 95%;
     margin: auto;
     border-collapse: collapse;
@@ -80,7 +80,7 @@ tr:nth-child(even) {
 
 tr:hover {
     background: #ddd;
-}
+} */
 
 .my-input {
     padding: 8px;

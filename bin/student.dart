@@ -25,20 +25,19 @@ final _tokenMgr = TokenManager.getInstance();
 Future<Response> find(Request request) async {
   if (!_tokenMgr.checkTokenFromHeaders(request.headers))
     return errorResponse(NO_AUTH);
-  var where =
-      request.requestedUri.queryParameters.map((a, b) => MapEntry(a, b));
+  var like = request.requestedUri.queryParameters.map((a, b) => MapEntry(a, b));
   // -2 is invalid
-  int limit = int.tryParse(where['limit'] ?? '-1') ?? -2;
-  where.remove('limit');
-  if (limit == -2 || where.keys.any((k) => !Papameter.contains(k)))
+  int limit = int.tryParse(like['limit'] ?? '-1') ?? -2;
+  like.remove('limit');
+  if (limit == -2 || like.keys.any((k) => !Papameter.contains(k)))
     return errorResponse(INVALID_REQUEST);
   var res = <Student>[];
   try {
-    res = await db.findWithCount<Student>(limit, where: where);
+    res = await db.findWithCount<Student>(limit, like: like);
   } catch (_) {
     return errorResponse(DB_ERROR);
   }
-  logger.log('student: find: $where, limit: $limit');
+  logger.log('student: find: $like, limit: $limit');
   return responseJson({"code": 200, "data": res});
 }
 

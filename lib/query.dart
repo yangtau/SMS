@@ -38,15 +38,25 @@ Future<bool> insetMutil(
   return true;
 }
 
-/// TODO: [like]
 Future<Results> find(String tableName,
     {Map where = const {}, Map like = const {}, int count = -1}) async {
   final conn = await connectDB();
-  final whereSql = where.keys.map((k) => '$k=?').join(" and ");
+  // like: key connect with value directly
+  final likeCondition = like.entries
+      .map((e) => 'upper(${e.key}) like upper("%${e.value}%")')
+      .join(' and ');
+  final equalCondition = where.keys.map((k) => '$k=?').join(" and ");
+  var whereSql = '';
+  if (equalCondition.isNotEmpty) {
+    whereSql += equalCondition;
+  }
+  if (likeCondition.isNotEmpty) {
+    whereSql += (whereSql.isEmpty ? '' : ' and ') + likeCondition;
+  }
   String sql = 'select * from $tableName';
-  sql += (whereSql.isNotEmpty ? (' where ' + whereSql) : '');
+  sql += whereSql.isNotEmpty ? (' where ' + whereSql) : '';
   if (count != -1) sql += ' limit $count';
-  // print(sql);
+  print(sql);
   final res = await conn.prepared(sql, where.values.toList());
   return res.deStream();
 }

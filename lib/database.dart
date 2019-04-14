@@ -29,11 +29,11 @@ Future<bool> insertAll<T extends DBBean>(List<T> list) {
 }
 
 Future<List<T>> findWithCount<T extends DBBean>(int count,
-    {Map where = const {}}) async {
+    {Map where = const {}, Map like = const {}}) async {
   final _classMirror = reflectClass(T);
   assert(_classMirror.isAbstract == false);
-  final res =
-      await find(_getTableName(_classMirror), where: where, count: count);
+  final res = await find(_getTableName(_classMirror),
+      where: where, count: count, like: like);
   final Map<Symbol, String> symbolToDbColumn = {};
   _classMirror.declarations.forEach((k, v) {
     final columName = _getColumnName(v);
@@ -52,13 +52,15 @@ Future<List<T>> findWithCount<T extends DBBean>(int count,
 }
 
 // return null if no data found
-Future<T> findFirst<T extends DBBean>({Map where = const {}}) async {
-  final res = await findWithCount<T>(1, where: where);
+Future<T> findFirst<T extends DBBean>(
+    {Map where = const {}, Map like = const {}}) async {
+  final res = await findWithCount<T>(1, where: where, like: like);
   return (res?.isEmpty ?? true) ? null : res.first;
 }
 
-Future<List<T>> findAll<T extends DBBean>({Map where = const {}}) async =>
-    findWithCount<T>(-1, where: where);
+Future<List<T>> findAll<T extends DBBean>(
+        {Map where = const {}, Map like = const {}}) async =>
+    findWithCount<T>(-1, where: where, like: like);
 
 /// abstract super class for all classes stored in database
 /// the bean must have a constructor with only named arguments of all db data
