@@ -24,9 +24,7 @@ void init() {
   });
   //update password
   querySelector('#update-password-btn').onClick.listen((_) {
-    showInfo('Change Password', 'Are you sure to change password?', onYesClick: (_) {
-      updatePassword();
-    });
+    updatePassword();
   });
   querySelector('#old-password-input').onClick.listen((e) => hideMsg());
   querySelector('#new-password-input').onClick.listen((e) => hideMsg());

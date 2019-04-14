@@ -91,6 +91,17 @@ showStudentInfo(TableRowElement row) {
   deleteSub?.cancel();
   updateSub = querySelector('#update-btn').onClick.listen((e) async {
     querySelector('#student-info').style.display = 'none';
+    if (nameIn.value.isEmpty) {
+      showInfo('WARNNING', 'Name cannot be empty!');
+      querySelector('#student-info').style.display = 'block';
+      return;
+    }
+    if (idIn.value == row.cells[0].text &&
+        nameIn.value == row.cells[1].text &&
+        emailIn.value == row.cells[2].text &&
+        telIn.value == row.cells[3].text) {
+      showInfo('WARNNING', 'No data has been modified.');
+    }
     showInfo('WARNNING', 'Update the student with id: ${idIn.value}?',
         onYesClick: (_) async {
       bool res = await update(
