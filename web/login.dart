@@ -22,7 +22,7 @@ main() async {
 login(String id, String password) async {
   // hideMsg();
   if (password.length < 8 || id == '') {
-    displayWarnMsg('ID or password is too short!');
+    displayWarnMsg('请检查你的账号和密码是否正确!');
     return;
   }
   final url = baseUrl + '/api/user/login';
@@ -38,10 +38,8 @@ login(String id, String password) async {
       window.localStorage['user_id'] = id;
       moveToHome();
     } else
-      dispalyErrorMsg('Check your id and password!!! Error message: ${res['msg']}.');
+      dispalyErrorMsg('请检查你的账号和密码是否正确!');
       // todo deal with the detail error 
-  } else {
-    dispalyErrorMsg('Something goes wrong. Check your internet connection.');
   }
 }
 

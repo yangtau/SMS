@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Log In</title>
+    <title>等录</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="w3.css">
     <link rel="stylesheet" href="css.css">
@@ -20,15 +20,15 @@
 
         <form class="w3-container">
             <p>
-                <label for="id_input"><b>ID</b></label>
+                <label for="id_input"><b>账号</b></label>
                 <input type="text" class="w3-input" id="id_input">
             </p>
             <p>
-                <label for="password_input"><b>Password</b></label>
+                <label for="password_input"><b>密码</b></label>
                 <input type="password" class="w3-input" id="password_input">
             </p>
             <p>
-                <button class="w3-black w3-btn" type="button" id="submit_btn">Sign In</button>
+                <button class="w3-black w3-btn" type="button" id="submit_btn">登录</button>
             </p>
 
         </form>
@@ -36,14 +36,14 @@
         <div class="w3-panel w3-yellow  card-fading" id="warn_card">
             <span onclick="this.parentElement.style.display='none'"
                 class="w3-button w3-large w3-display-topright">&times;</span>
-            <h3>Warning!</h3>
+            <h3>提醒!</h3>
             <p id="warn_msg"></p>
         </div>
 
         <div class="w3-panel w3-red  card-fading w3-container" id="error_card">
             <span onclick="this.parentElement.style.display='none'"
                 class="w3-button w3-large w3-display-topright">&times;</span>
-            <h3>ERROR!</h3>
+            <h3>错误!</h3>
             <p id="error_msg"></p>
         </div>
 

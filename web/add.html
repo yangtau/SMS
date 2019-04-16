@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>SMS user</title>
+    <title>添加</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="w3.css">
     <link rel="stylesheet" href="css.css">
@@ -28,13 +28,13 @@
         </div>
         <!-- tab -->
         <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
-            <a class="w3-bar-item w3-button tab-btn" id="user-tab-btn" onclick="showContent('user')">USER</a>
+            <a class="w3-bar-item w3-button tab-btn" id="user-tab-btn" onclick="showContent('user')">用户</a>
             <a class="w3-bar-item w3-button tab-btn" id="student-tab-btn" style="color: black"
-                onclick="showContent('home')">STUDENT</a>
+                onclick="showContent('home')">学生</a>
             <div class="w3-bar-block w3-medium" style="margin-left: 16px">
-                <a class="w3-bar-item w3-button tab-btn" id="student-find-btn" onclick="showContent('find')">LIST</a>
+                <a class="w3-bar-item w3-button tab-btn" id="student-find-btn" onclick="showContent('find')">学生列表</a>
                 <a class="w3-bar-item w3-button tab-btn" id="student-add-btn" style="color: black"
-                    onclick="showContent('add')">ADD</a>
+                    onclick="showContent('add')">添加</a>
             </div>
         </div>
     </nav>
@@ -49,25 +49,24 @@
     <div class="w3-overlay hide-large" onclick="closeSidebar()" style="cursor:pointer" title="close side menu"
         id="overlay"></div>
 
-    <!-- msg box -->
-    <div class="my-overlay" id="info-card">
-        <div class="card w3-white w3-container" style="position: relative;padding: 16px">
-            <span onclick="document.getElementById('info-card').style.display='none'"
-                class="fa fa-remove w3-button w3-display-topright"></span>
-            <h3 id="info-title">
-                TITLE
-            </h3>
-            <p class="w3-medium" id="info-msg">
-                This is a mag;
-            </p>
-            <p>
-                <button class="w3-black w3-btn" type="button" id="accept-info-btn" style="display: none"
-                    id="info-yes-btn">YES</button>
-                <button class="w3-black w3-btn w3-right" type="button" id="close-info-btn"
-                    onclick="document.getElementById('info-card').style.display='none'">CLOSE</button>
-            </p>
+        <div class="my-overlay" id="info-card">
+            <div class="card w3-white w3-container" style="position: relative;padding: 16px">
+                <span onclick="document.getElementById('info-card').style.display='none'"
+                    class="fa fa-remove w3-button w3-display-topright"></span>
+                <h3 id="info-title">
+                    TITLE
+                </h3>
+                <p class="w3-medium" id="info-msg">
+                    This is a mag;
+                </p>
+                <p>
+                    <button class="w3-black w3-btn" type="button" id="accept-info-btn" style="display: none"
+                        id="info-yes-btn">确定</button>
+                    <button class="w3-black w3-btn w3-right" type="button" id="close-info-btn"
+                        onclick="document.getElementById('info-card').style.display='none'">关闭</button>
+                </p>
+            </div>
         </div>
-    </div>
 
     <!-- content -->
     <div class="main" style="margin-left: 260px; height:100%">
@@ -75,22 +74,22 @@
         <div class="w3-white content" style="height: 100%;" id="student-add">
 
             <header class="w3-container ">
-                <h2 class="w3-left w3-xlarge">ADD</h2>
+                <h2 class="w3-left w3-xlarge">添加</h2>
             </header>
             <p class="w3-center">
-                <input type="text" class="my-input" placeholder="ID" id="id-input">
-                <input type="text" class="my-input" placeholder="Name" id="name-input">
-                <input type="email" class="my-input" placeholder="Email" id="mail-input">
-                <input type="tel" class="my-input" placeholder="Phone Number" id="tel-input">
+                <input type="text" class="my-input" placeholder="学号" id="id-input">
+                <input type="text" class="my-input" placeholder="姓名" id="name-input">
+                <input type="email" class="my-input" placeholder="邮箱" id="mail-input">
+                <input type="tel" class="my-input" placeholder="电话号码" id="tel-input">
                 <a class="fa fa-plus w3-button w3-xlarge" id="add-btn"></a>
             </p>
 
             <table class="w3-card" id="students-table" style="padding: top 20px;">
                 <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
+                    <th>学号</th>
+                    <th>姓名</th>
+                    <th>邮箱</th>
+                    <th>电话号码</th>
                 </tr>
             </table>
             <p class="w3-right" style="margin-right: 25px;">
@@ -99,7 +98,7 @@
                 <button class="w3-btn w3-border fa fa-arrow-right" id="next-page"></button>
             </p>
             <p class="w3-right"style="margin-right:25px">
-                <button class="w3-black w3-btn" type="button" id="add-all-btn">Add All</button>
+                <button class="w3-black w3-btn" type="button" id="add-all-btn">添加全部</button>
             </p>
         </div>
     </div>

@@ -92,17 +92,19 @@ showStudentInfo(TableRowElement row) {
   updateSub = querySelector('#update-btn').onClick.listen((e) async {
     querySelector('#student-info').style.display = 'none';
     if (nameIn.value.isEmpty) {
-      showInfo('WARNNING', 'Name cannot be empty!');
-      querySelector('#student-info').style.display = 'block';
+      showInfo('提醒', '姓名不能为空!');
+      // querySelector('#student-info').style.display = 'block';
       return;
     }
     if (idIn.value == row.cells[0].text &&
         nameIn.value == row.cells[1].text &&
         emailIn.value == row.cells[2].text &&
         telIn.value == row.cells[3].text) {
-      showInfo('WARNNING', 'No data has been modified.');
+      showInfo('提醒', '没有项目被修改.');
+      return;
     }
-    showInfo('WARNNING', 'Update the student with id: ${idIn.value}?',
+
+    showInfo('确认', '是否要更新学号为: ${idIn.value}的学生?',
         onYesClick: (_) async {
       bool res = await update(
           id: idIn.value,
@@ -122,7 +124,7 @@ showStudentInfo(TableRowElement row) {
   querySelector('#delete-btn').onClick.listen((e) async {
     querySelector('#student-info').style.display = 'none';
     // print('delete-click:${_row.rowIndex}');
-    showInfo('WARNNING', 'Delete the student with id: ${idIn.value}?',
+    showInfo('确认', '是否要删除学号为: ${idIn.value}的学生?',
         onYesClick: (_) async {
       bool res = await delete(idIn.value);
       _.style.display = 'none';
@@ -150,10 +152,10 @@ find({String id, String name, int limit}) async {
     if (body['code'] == 200)
       return body['data'];
     else {
-      showInfo('Error', body['msg']);
+      showInfo('错误', body['msg']);
     }
   } else {
-    showInfo('Error', 'Unexpected error!!!');
+    showInfo('错误', '未知错误!!!');
   }
   return null;
 }
@@ -174,10 +176,10 @@ Future<bool> update({String id, String name, String mail, String tel}) async {
     if (body['code'] == 200)
       return true;
     else {
-      showInfo('Error', body['msg']);
+      showInfo('错误', body['msg']);
     }
   } else {
-    showInfo('Error', 'Unexpected error!!!');
+    showInfo('错误', '未知错误!!!');
   }
   return false;
 }
@@ -196,10 +198,10 @@ Future<bool> delete(String id) async {
     if (body['code'] == 200)
       return true;
     else {
-      showInfo('Error', body['msg']);
+      showInfo('错误', body['msg']);
     }
   } else {
-    showInfo('Error', 'Unexpected error!!!');
+    showInfo('错误', '未知错误!!!');
   }
   return false;
 }

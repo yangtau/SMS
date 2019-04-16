@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>SMS user</title>
+    <title>学生列表</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="w3.css">
     <link rel="stylesheet" href="css.css">
@@ -28,13 +28,13 @@
         </div>
         <!-- tab -->
         <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
-            <a class="w3-bar-item w3-button tab-btn" id="user-tab-btn" onclick="showContent('user')">USER</a>
+            <a class="w3-bar-item w3-button tab-btn" id="user-tab-btn" onclick="showContent('user')">用户</a>
             <a class="w3-bar-item w3-button tab-btn" id="student-tab-btn" style="color: black"
-                onclick="showContent('home')">STUDENT</a>
+                onclick="showContent('home')">学生</a>
             <div class="w3-bar-block w3-medium" style="margin-left: 16px">
                 <a class="w3-bar-item w3-button tab-btn" id="student-find-btn" style="color: black"
-                    onclick="showContent('find')">LIST</a>
-                <a class="w3-bar-item w3-button tab-btn" id="student-add-btn" onclick="showContent('add')">ADD</a>
+                    onclick="showContent('find')">学生列表</a>
+                <a class="w3-bar-item w3-button tab-btn" id="student-add-btn" onclick="showContent('add')">添加</a>
             </div>
         </div>
     </nav>
@@ -50,9 +50,8 @@
         id="overlay">
     </div>
 
-    <!-- msg box -->
-    <div class="my-overlay" id="info-card" style="display: none;z-index: 4;">
-        <div class="card w3-white w3-container" style="position: relative;">
+    <div class="my-overlay" id="info-card">
+        <div class="card w3-white w3-container" style="position: relative;padding: 16px">
             <span onclick="document.getElementById('info-card').style.display='none'"
                 class="fa fa-remove w3-button w3-display-topright"></span>
             <h3 id="info-title">
@@ -63,12 +62,13 @@
             </p>
             <p>
                 <button class="w3-black w3-btn" type="button" id="accept-info-btn" style="display: none"
-                    id="info-yes-btn">YES</button>
+                    id="info-yes-btn">确定</button>
                 <button class="w3-black w3-btn w3-right" type="button" id="close-info-btn"
-                    onclick="document.getElementById('info-card').style.display='none'">CLOSE</button>
+                    onclick="document.getElementById('info-card').style.display='none'">关闭</button>
             </p>
         </div>
     </div>
+
 
     <!-- info card -->
     <div class="my-overlay" id="student-info">
@@ -76,24 +76,24 @@
             <i onclick="closeInfoCard()" class="fa fa-remove w3-button w3-display-topright"></i>
             <form class="w3-container">
                 <p>
-                    <label for="id-input"><b>ID</b></label>
+                    <label for="id-input"><b>学号</b></label>
                     <input type="text" class="w3-input" id="id-input" disabled>
                 </p>
                 <p>
-                    <label for="name-input"><b>Name</b></label>
+                    <label for="name-input"><b>姓名</b></label>
                     <input type="text" class="w3-input" id="name-input">
                 </p>
                 <p>
-                    <label for="mail-input"><b>Email</b></label>
+                    <label for="mail-input"><b>邮箱</b></label>
                     <input type="email" class="w3-input" id="mail-input">
                 </p>
                 <p>
-                    <label for="tel-input"><b>Phone Number</b></label>
+                    <label for="tel-input"><b>电话号码</b></label>
                     <input type="tel" class="w3-input" id="tel-input">
                 </p>
                 <p>
-                    <button class="w3-black w3-btn" type="button" id="delete-btn">delete</button>
-                    <button class="w3-black w3-btn w3-right" type="button" id="update-btn">update</button>
+                    <button class="w3-black w3-btn" type="button" id="delete-btn">删除</button>
+                    <button class="w3-black w3-btn w3-right" type="button" id="update-btn">更改</button>
                 </p>
 
             </form>
@@ -119,20 +119,20 @@
         <div class="content" style="height: 100%;" id="student-find">
 
             <header class="w3-container w3-xlarge">
-                <h2 class="w3-left">LIST</h2>
+                <h2 class="w3-left">学生列表</h2>
                 <p class="w3-large w3-right ">
-                    <input class="my-input" placeholder="id" id="find-id-input">
-                    <input class="my-input" placeholder="name" id="find-name-input">
+                    <input class="my-input" placeholder="学号" id="find-id-input">
+                    <input class="my-input" placeholder="姓名" id="find-name-input">
                     <a class="fa fa-search w3-button" id="find-btn"></a>
                 </p>
             </header>
 
             <table class="w3-card" id="students-table">
                 <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
+                    <th>学号</th>
+                    <th>姓名</th>
+                    <th>邮箱</th>
+                    <th>电话号码</th>
                 </tr>
             </table>
             <p class="w3-right" style="margin-right: 25px;">

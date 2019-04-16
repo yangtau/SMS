@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>SMS</title>
+    <title>学生</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="w3.css">
     <link rel="stylesheet" href="css.css">
@@ -29,12 +29,12 @@
         </div>
         <!-- tab -->
         <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
-            <a class="w3-bar-item w3-button tab-btn" id="user-tab-btn" onclick="showContent('user')">USER</a>
+            <a class="w3-bar-item w3-button tab-btn" id="user-tab-btn" onclick="showContent('user')">用户</a>
             <a class="w3-bar-item w3-button tab-btn" id="student-tab-btn" style="color: black"
-                onclick="showContent('home')">STUDENT</a>
+                onclick="showContent('home')">学生</a>
             <div class="w3-bar-block w3-medium" style="margin-left: 16px">
-                <a class="w3-bar-item w3-button tab-btn" id="student-find-btn" onclick="showContent('find')">LIST</a>
-                <a class="w3-bar-item w3-button tab-btn" id="student-add-btn" onclick="showContent('add')">ADD</a>
+                <a class="w3-bar-item w3-button tab-btn" id="student-find-btn" onclick="showContent('find')">学生列表</a>
+                <a class="w3-bar-item w3-button tab-btn" id="student-add-btn" onclick="showContent('add')">添加</a>
             </div>
         </div>
     </nav>
@@ -55,17 +55,17 @@
         <!-- student -->
         <div class="w3-white content" style="height: 100%;" id="student">
             <header class="w3-container w3-xlarge">
-                <h2 class="w3-left">STUDENT</h2>
+                <h2 class="w3-left">学生</h2>
             </header>
             <ul class="w3-ul w3-hoverable w3-large w3-card card">
                 <li>
                     <div class="w3-button" onclick="showContent('find')">
-                        <i class="fa fa-list"></i> LIST
+                        <i class="fa fa-list"></i> 学生列表
                     </div>
                 </li>
                 <li>
                     <div class="w3-button" onclick="showContent('add')">
-                        <i class="fa fa-plus"></i> ADD
+                        <i class="fa fa-plus"></i> 添加
                     </div>
                 </li>
             </ul>

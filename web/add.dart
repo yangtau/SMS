@@ -19,7 +19,7 @@ main() async {
         email = emailIn.value,
         tel = telIn.value;
     if (id.isEmpty || name.isEmpty) {
-      showInfo('WARNNING', 'ID and name should not be empty.');
+      showInfo('提醒', '学号或者姓名不能为空');
       return;
     }
     data.add({'id': id, 'name': name, 'email': email, 'phonenumber': tel});
@@ -56,7 +56,7 @@ void loadData(data) {
       row.insertCell(3).text = d['phonenumber'];
       row.style.cursor = 'pointer';
       row.onClick.listen((_) {
-        showInfo('YOU SURE?', 'Delete this item.', onYesClick: (_) {
+        showInfo('确认', '是否删除?', onYesClick: (_) {
           table.deleteRow(row.rowIndex);
         });
       });
@@ -95,7 +95,7 @@ addAll() async {
     });
   }
   if (data.isEmpty) {
-    showInfo('Empty', 'The table of students to add is empty!');
+    showInfo('提醒', '待添加表为空, 请先添加学生到添加表再试!');
     return;
   }
   final res = await HttpRequest.request(
@@ -111,7 +111,7 @@ addAll() async {
       showInfo('Done', 'succeed.');
     } else if (body['code'] == 409) {
       showInfo(
-          'Error', 'Check the IDs of the items. Error message: ${body['msg']}');
+          '错误', '检查是否有学号重复. 错误信息: ${body['msg']}');
     } else {
       showInfo('Error', body['msg']);
     }

@@ -18,7 +18,7 @@ void init() {
   }
   // logout
   querySelector('#logout-btn').onClick.listen((e) {
-    showInfo('Sign out', 'Are you sure to sign out?', onYesClick: (_) {
+    showInfo('确认', '你确认要退出登录吗?', onYesClick: (_) {
       logout();
     });
   });
@@ -34,7 +34,7 @@ void init() {
 void logout() async {
   final res = await HttpRequest.request(baseUrl + '/api/user/logout');
   if (res.status == 200) {
-    showInfo('Done', 'Bye.');
+    showInfo('完成', '再见!');
     await Future.delayed(
         Duration(seconds: 2), () => window.location.href = baseUrl);
   }
@@ -46,11 +46,11 @@ void updatePassword() async {
       reNewPw = querySelector('#re-new-password-input');
   final id = window.localStorage['user_id'] ?? '';
   if (newPw.value != reNewPw.value) {
-    displayWarnMsg('You must type the same password each time.');
+    displayWarnMsg('请输入相同的账号.');
   } else if (oldPw.value.length < 8 ||
       newPw.value.length < 8 ||
       reNewPw.value.length < 8) {
-    displayWarnMsg('Password must be a minimum of 6 characters.');
+    displayWarnMsg('密码必须长于8位.');
     return;
   } else if (id == '') {
     dispalyErrorMsg(
@@ -69,11 +69,11 @@ void updatePassword() async {
     if (res.status == 200) {
       final body = json.decode(res.responseText);
       if (body['code'] == 200) {
-        showInfo('Done', 'Please use your new password to login again.');
+        showInfo('完成', '请重新登录.');
         await Future.delayed(
             Duration(seconds: 2), () => window.location.href = baseUrl);
       } else {
-        dispalyErrorMsg('Error message: ${body['msg']}.');
+        dispalyErrorMsg('错误: ${body['msg']}.');
       }
     } else {
       dispalyErrorMsg('Some unexpected error happened.');
